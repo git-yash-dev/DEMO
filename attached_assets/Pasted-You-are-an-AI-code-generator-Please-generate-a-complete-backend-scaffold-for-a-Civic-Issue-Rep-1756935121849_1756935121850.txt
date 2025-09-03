@@ -1,0 +1,49 @@
+You are an AI code generator.  
+Please generate a complete backend scaffold for a **Civic Issue Reporting App** using **Node.js (Express) + PostgreSQL**.  
+
+### Requirements:
+1. **Project Setup**
+   - Express.js server with ES modules.
+   - PostgreSQL integration via Sequelize ORM.
+   - Environment variables for DB connection (dotenv).
+   - Nodemon for dev mode.
+
+2. **Database Schema**
+   - Users:
+     - id (PK), name, email, password (hashed), role (citizen/staff/admin), createdAt.
+   - Reports:
+     - id (PK), userId (FK → Users), title, description, photoURL, location (lat,long), issueType, status (submitted, acknowledged, in_progress, resolved), priority, createdAt.
+   - Departments:
+     - id (PK), name, description.
+   - Assignments:
+     - id (PK), reportId (FK → Reports), departmentId (FK → Departments), assignedAt, status.
+   - Notifications:
+     - id (PK), userId (FK → Users), message, read (boolean), createdAt.
+
+3. **Features**
+   - JWT Authentication (register, login, middleware for protected routes).
+   - Report Management:
+     - POST /reports → Create a report (with image upload & GPS coords).
+     - GET /reports → List reports (filter by category, location, priority).
+     - PUT /reports/:id → Update report status.
+     - GET /reports/:id → Fetch single report details.
+   - Department Routing:
+     - Automatically assign department based on `issueType`.
+   - Notifications:
+     - POST /notifications → Create notification.
+     - GET /notifications/:userId → Fetch user notifications.
+
+4. **Image Upload**
+   - Use `multer` for local uploads (save to /uploads folder).
+   - Store photo URL in DB.
+
+5. **Real-time Updates**
+   - Basic WebSocket (socket.io) for notifying staff & users when status changes.
+
+6. **API Documentation**
+   - Swagger/OpenAPI docs at `/docs`.
+
+7. **Extra**
+   - Use CORS enabled.
+   - Proper error handling (try/catch, middleware).
+   - Example seed data for Departments (e.g., Sanitation, Public Works, Lighting).
