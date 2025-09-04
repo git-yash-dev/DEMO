@@ -16,6 +16,7 @@ import { seedDepartments } from './seeders/departmentSeeder.js';
 import authRoutes from './routes/authRoutes.js';
 import reportRoutes from './routes/reportRoutes.js';
 import notificationRoutes from './routes/notificationRoutes.js';
+import departmentRoutes from './routes/departmentRoutes.js';
 
 // Load environment variables
 dotenv.config();
@@ -57,6 +58,7 @@ app.get('/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/departments', departmentRoutes);
 
 // Socket.IO for real-time updates
 io.on('connection', (socket) => {

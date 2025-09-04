@@ -1,25 +1,26 @@
 import { DataTypes } from 'sequelize';
-import sequelize from '../config/database.js';
 
-const Department = sequelize.define('Department', {
-  id: {
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV4,
-    primaryKey: true,
-  },
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-    validate: {
-      notEmpty: true,
-      len: [2, 100],
+export default (sequelize) => {
+  const Department = sequelize.define('Department', {
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true,   // ✅ fixed typo here
     },
-  },
-  description: {
-    type: DataTypes.TEXT,
-    allowNull: true,
-  },
-});
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        notEmpty: true,
+        len: [2, 100],
+      },
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+  });
 
-export default Department;
+  return Department;
+};
