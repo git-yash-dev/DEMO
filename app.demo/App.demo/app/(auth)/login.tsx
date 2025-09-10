@@ -30,7 +30,17 @@ export default function LoginScreen() {
       Alert.alert('Success', 'Logged in successfully');
       router.replace('/(tabs)');
     } catch (error) {
-      Alert.alert('Login Failed', error.message || 'An error occurred during login');
+      let errorMsg = 'An error occurred during login';
+      if (error && typeof error === 'object') {
+        if ('message' in error && typeof error.message === 'string') {
+          errorMsg = error.message;
+        } else if (typeof error.toString === 'function') {
+          errorMsg = error.toString();
+        }
+      } else if (typeof error === 'string') {
+        errorMsg = error;
+      }
+      Alert.alert('Login Failed', errorMsg);
     } finally {
       setLoading(false);
     }

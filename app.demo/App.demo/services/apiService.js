@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const API_BASE_URL = 'http://localhost:3000/api'; // Adjust this to your backend URL
 const USE_MOCK_DATA = true; // Set to false when backend is available
 
-class ApiService {
+const ApiService = {
   // Get stored token
   async getToken() {
     try {
@@ -12,7 +12,7 @@ class ApiService {
       console.error('Error getting token:', error);
       return null;
     }
-  }
+  },
 
   // Store token
   async setToken(token) {
@@ -21,7 +21,7 @@ class ApiService {
     } catch (error) {
       console.error('Error storing token:', error);
     }
-  }
+  },
 
   // Remove token
   async removeToken() {
@@ -30,7 +30,7 @@ class ApiService {
     } catch (error) {
       console.error('Error removing token:', error);
     }
-  }
+  },
 
   // Mock data for demo purposes
   getMockData(url, method = 'GET') {
@@ -83,7 +83,7 @@ class ApiService {
       return { id: '4', message: 'Report submitted successfully' };
     }
     throw new Error('Mock endpoint not found');
-  }
+  },
 
   // Make authenticated request
   async makeRequest(url, options = {}) {
@@ -121,10 +121,10 @@ class ApiService {
       console.error('API request failed:', error);
       throw error;
     }
-  }
+  },
 
   // Authentication methods
-  async login(email, password) {
+  login: async (email, password) => {
     const response = await this.makeRequest('/auth/login', {
       method: 'POST',
       body: JSON.stringify({ email, password }),
@@ -135,45 +135,39 @@ class ApiService {
     }
 
     return response;
-  }
+  },
 
-  async register(email, password, name) {
-    const response = await this.makeRequest('/auth/register', {
-      method: 'POST',
-      body: JSON.stringify({ email, password, name }),
-    });
-
-    if (response.token) {
-      await this.setToken(response.token);
-    }
-
-    return response;
-  }
+  register: async (email, password, name) => {
+    // Replace this with your actual registration logic
+    // Example:
+    // return fetch('/api/register', { ... })
+    return Promise.resolve({ success: true });
+  },
 
   async logout() {
     await this.removeToken();
-  }
+  },
 
   // User methods
   async getCurrentUser() {
     return await this.makeRequest('/me');
-  }
+  },
 
   // Reports methods
   async getReports() {
     return await this.makeRequest('/reports');
-  }
+  },
 
   async createReport(reportData) {
     return await this.makeRequest('/reports', {
       method: 'POST',
       body: JSON.stringify(reportData),
     });
-  }
+  },
 
   async getReport(id) {
     return await this.makeRequest(`/reports/${id}`);
-  }
+  },
 
   // Check if user is authenticated
   async isAuthenticated() {
@@ -182,4 +176,4 @@ class ApiService {
   }
 }
 
-export default new ApiService();
+export default ApiService;

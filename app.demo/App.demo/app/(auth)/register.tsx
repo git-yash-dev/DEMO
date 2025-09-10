@@ -42,7 +42,17 @@ export default function RegisterScreen() {
       Alert.alert('Success', 'Account created successfully');
       router.replace('/(tabs)');
     } catch (error) {
-      Alert.alert('Registration Failed', error.message || 'An error occurred during registration');
+      let errorMsg = 'An error occurred during registration';
+      if (error && typeof error === 'object') {
+        if ('message' in error && typeof (error as any).message === 'string') {
+          errorMsg = (error as any).message;
+        } else if (typeof error.toString === 'function') {
+          errorMsg = error.toString();
+        }
+      } else if (typeof error === 'string') {
+        errorMsg = error;
+      }
+      Alert.alert('Registration Failed', errorMsg);
     } finally {
       setLoading(false);
     }
